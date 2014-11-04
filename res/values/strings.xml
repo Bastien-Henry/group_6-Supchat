@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SupChat</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <!--  Login  -->
+    <string name="activity_login_title">Login</string>
+    <string name="activity_login_hint">Pseudo</string>
+    <string name="activity_login_password_hint">Password</string>
+    <string name="activity_login_validate">Validate</string>
+    <string name="activity_login_go_to_create">Create Account</string>
+    
+    <!--  Create Account  -->
+    <string name="activity_create_account_title">Create Account</string>
+    <string name="activity_create_account_hint">Pseudo</string>
+    <string name="activity_create_account_password_hint">Password</string>
+    <string name="activity_create_account_validate">Validate</string>
+    <string name="activity_create_account_go_to_login">Login</string>
+
+</resources>
