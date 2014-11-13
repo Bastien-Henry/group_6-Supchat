@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
-import fr.supinternet.supchat.model.Response;
 import fr.supinternet.supchat.model.ResponseCode;
 import fr.supinternet.supchat.model.TokenResponse;
 
