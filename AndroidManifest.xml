@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" android:name=".application.SupChatApplication">
         <activity
-            android:name=".LoginActivity"
+            android:name=".ContactsActivity"
             android:label="@string/app_name" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

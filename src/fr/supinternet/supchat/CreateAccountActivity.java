@@ -73,7 +73,8 @@ public class CreateAccountActivity extends Activity{
 
 				@Override
 				public void onResponse(Response response) {
-					Log.i(TAG, "respone " + response);
+					Log.i(TAG, "response " + response);
+					goToContactsActivity();
 				}
 			}, new ErrorListener() {
 
@@ -111,6 +112,14 @@ public class CreateAccountActivity extends Activity{
 
 	private void goToLoginActvity() {
 		Intent intent = new Intent(this, LoginActivity.class);
+		startActivity(intent);
+	}
+	
+	private void goToContactsActivity(){
+		Intent intent = new Intent(this, ContactsActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		startActivity(intent);
 	}
 	

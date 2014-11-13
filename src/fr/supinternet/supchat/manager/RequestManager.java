@@ -9,10 +9,14 @@ import android.util.Log;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 
+import fr.supinternet.supchat.factory.json.ContactsResponseJSONFactory;
 import fr.supinternet.supchat.factory.json.TokenResponseJSONFactory;
+import fr.supinternet.supchat.model.ContactsResponse;
 import fr.supinternet.supchat.model.Response;
+import fr.supinternet.supchat.model.Token;
 import fr.supinternet.supchat.model.TokenResponse;
 import fr.supinternet.supchat.model.User;
+import fr.supinternet.supchat.request.ContactsRequest;
 import fr.supinternet.supchat.request.CreateUserRequest;
 import fr.supinternet.supchat.request.LoginRequest;
 
@@ -75,13 +79,13 @@ public class RequestManager {
 		request.start();
 	}
 
-	public void login(User user, final Listener<Response> listener, ErrorListener errorListener) throws JSONException {
+	public void login(User user, final Listener<TokenResponse> listener, ErrorListener errorListener) throws JSONException {
 
 		LoginRequest request = new LoginRequest(context, user, new Listener<JSONObject>() {
 
 			@Override
 			public void onResponse(JSONObject jsonResponse) {
-				Response response = null;
+				TokenResponse response = null;
 				try {
 					response = storeToken(jsonResponse);
 				} catch (JSONException e) {
@@ -100,6 +104,29 @@ public class RequestManager {
 		TokenResponse response = TokenResponseJSONFactory.parseFromJSONObject(arg0);
 		AuthenticationManager.getInstance(context).setToken(response.getToken());
 		return response;
+	}
+	
+	public void retrieveContacts(final Listener<ContactsResponse> listener, ErrorListener errorListener) throws JSONException {
+
+		Token token = new Token();
+		token.setTokenValue(AuthenticationManager.getInstance(context).getToken());
+		ContactsRequest request = new ContactsRequest(context, token, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject jsonResponse) {
+				ContactsResponse response = null;
+				try {
+					response = ContactsResponseJSONFactory.parseFromJSONObject(jsonResponse);
+				} catch (JSONException e) {
+					Log.e(TAG, "An error occurred parsing create user response", e);
+				}
+
+				if (listener != null){
+					listener.onResponse(response);
+				}
+			}
+		}, errorListener);
+		request.start();
 	}
 
 }

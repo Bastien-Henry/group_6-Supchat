@@ -11,7 +11,7 @@ import fr.supinternet.supchat.model.User;
 
 public class UserJsonFactory {
 	
-	private static final String TAG = "TokenJsonFactory";
+	private static final String TAG = "UserJsonFactory";
 	
 	public static JSONObject getJSONObject(User u) throws JSONException{
 		
