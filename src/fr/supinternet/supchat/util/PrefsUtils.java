@@ -10,7 +10,8 @@ public class PrefsUtils {
 	private static final String TAG = "PrefsUtils";
 	
 	public static final String TOKEN_S = "TOKEN_S";
-
+	public static final String PSEUDO_S = "PSEUDO_S";
+	public static final String PWORD_S = "PWORD_S";
 
 	private static SharedPreferences prefs;
 

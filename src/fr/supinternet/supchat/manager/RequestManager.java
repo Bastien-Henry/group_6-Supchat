@@ -13,6 +13,7 @@ import fr.supinternet.supchat.factory.json.ContactsResponseJSONFactory;
 import fr.supinternet.supchat.factory.json.TokenResponseJSONFactory;
 import fr.supinternet.supchat.model.ContactsResponse;
 import fr.supinternet.supchat.model.Response;
+import fr.supinternet.supchat.model.ResponseCode;
 import fr.supinternet.supchat.model.Token;
 import fr.supinternet.supchat.model.TokenResponse;
 import fr.supinternet.supchat.model.User;
@@ -58,7 +59,7 @@ public class RequestManager {
 		return requestId++;
 	}
 
-	public void createUser(User user, final Listener<Response> listener, ErrorListener errorListener) throws JSONException {
+	public void createUser(final User user, final Listener<Response> listener, ErrorListener errorListener) throws JSONException {
 
 		CreateUserRequest request = new CreateUserRequest(context, user, new Listener<JSONObject>() {
 
@@ -67,6 +68,7 @@ public class RequestManager {
 				Response response = null;
 				try {
 					response = storeToken(arg0);
+					storeCredentials(user.getUserPseudo(), user.getUserHash());
 				} catch (JSONException e) {
 					Log.e(TAG, "An error occurred parsing create user response", e);
 				}
@@ -79,7 +81,7 @@ public class RequestManager {
 		request.start();
 	}
 
-	public void login(User user, final Listener<TokenResponse> listener, ErrorListener errorListener) throws JSONException {
+	public void login(final User user, final Listener<TokenResponse> listener, ErrorListener errorListener) throws JSONException {
 
 		LoginRequest request = new LoginRequest(context, user, new Listener<JSONObject>() {
 
@@ -88,6 +90,7 @@ public class RequestManager {
 				TokenResponse response = null;
 				try {
 					response = storeToken(jsonResponse);
+					storeCredentials(user.getUserPseudo(), user.getUserHash());
 				} catch (JSONException e) {
 					Log.e(TAG, "An error occurred parsing create user response", e);
 				}
@@ -99,6 +102,11 @@ public class RequestManager {
 		}, errorListener);
 		request.start();
 	}
+	
+	private void storeCredentials(String pseudo, String hash){
+		AuthenticationManager.getInstance(context).setPseudo(pseudo);
+		AuthenticationManager.getInstance(context).setHash(hash);
+	}
 
 	protected TokenResponse storeToken(JSONObject arg0) throws JSONException {
 		TokenResponse response = TokenResponseJSONFactory.parseFromJSONObject(arg0);
@@ -106,7 +114,7 @@ public class RequestManager {
 		return response;
 	}
 	
-	public void retrieveContacts(final Listener<ContactsResponse> listener, ErrorListener errorListener) throws JSONException {
+	public void retrieveContacts(final Listener<ContactsResponse> listener, final ErrorListener errorListener) throws JSONException {
 
 		Token token = new Token();
 		token.setTokenValue(AuthenticationManager.getInstance(context).getToken());
@@ -117,6 +125,46 @@ public class RequestManager {
 				ContactsResponse response = null;
 				try {
 					response = ContactsResponseJSONFactory.parseFromJSONObject(jsonResponse);
+					
+					if (response == null || response.getCode().equals(ResponseCode.TOKEN_INVALID)){
+						autoLogin(new Listener<TokenResponse>(){
+
+							@Override
+							public void onResponse(TokenResponse arg0) {
+								try {
+									retrieveContacts(listener, errorListener);
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
+							}
+							
+						}, errorListener);
+					}
+					
+				} catch (JSONException e) {
+					Log.e(TAG, "An error occurred parsing create user response", e);
+				}
+
+				if (listener != null){
+					listener.onResponse(response);
+				}
+			}
+		}, errorListener);
+		request.start();
+	}
+	
+	private void autoLogin(final Listener<TokenResponse> listener, final ErrorListener errorListener) throws JSONException{
+		final User user = new User();
+		user.setUserPseudo(AuthenticationManager.getInstance(context).getPseudo());
+		user.setUserHash(AuthenticationManager.getInstance(context).getHash());
+		LoginRequest request = new LoginRequest(context, user, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject jsonResponse) {
+				TokenResponse response = null;
+				try {
+					response = storeToken(jsonResponse);
+					storeCredentials(user.getUserPseudo(), user.getUserHash());
 				} catch (JSONException e) {
 					Log.e(TAG, "An error occurred parsing create user response", e);
 				}

@@ -42,5 +42,21 @@ public class AuthenticationManager {
 	public String getToken(){
 		return PrefsUtils.getString(context, PrefsUtils.TOKEN_S, "");
 	}
+	
+	public void setPseudo(String pseudo){
+		PrefsUtils.setString(context, PrefsUtils.PSEUDO_S, pseudo);
+	}
+	
+	public String getPseudo(){
+		return PrefsUtils.getString(context, PrefsUtils.PSEUDO_S, "");
+	}
+	
+	public void setHash(String hash){
+		PrefsUtils.setString(context, PrefsUtils.PWORD_S, hash);
+	}
+	
+	public String getHash(){
+		return PrefsUtils.getString(context, PrefsUtils.PWORD_S, "");
+	}
 
 }
