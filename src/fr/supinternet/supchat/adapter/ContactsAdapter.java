@@ -16,6 +16,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 
 import fr.supinternet.supchat.R;
+import fr.supinternet.supchat.ContactsActivity;
 import fr.supinternet.supchat.manager.RequestManager;
 import fr.supinternet.supchat.model.ContactsResponse;
 import fr.supinternet.supchat.model.User;
@@ -26,10 +27,12 @@ public class ContactsAdapter extends BaseAdapter{
 	
 	private LayoutInflater inflater;
 	private RequestManager manager;
+	private ContactsActivity activity;
 	
-	public ContactsAdapter(Context context) {
-		inflater = LayoutInflater.from(context);
-		manager = RequestManager.getInstance(context);
+	public ContactsAdapter(ContactsActivity activity) {
+		inflater = LayoutInflater.from(activity);
+		manager = RequestManager.getInstance(activity);
+		this.activity = activity;
 	}
 	
 	public void loadData(){
@@ -40,6 +43,7 @@ public class ContactsAdapter extends BaseAdapter{
 				public void onResponse(ContactsResponse response) {
 					users = response.getUsers();
 					notifyDataSetChanged();
+					activity.dataLoaded();
 				}
 			}, new ErrorListener() {
 

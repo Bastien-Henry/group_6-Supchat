@@ -2,10 +2,6 @@ package fr.supinternet.supchat;
 
 import org.json.JSONException;
 
-import com.android.volley.VolleyError;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +11,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+
 import fr.supinternet.supchat.R;
 import fr.supinternet.supchat.manager.RequestManager;
-import fr.supinternet.supchat.model.Response;
 import fr.supinternet.supchat.model.TokenResponse;
 import fr.supinternet.supchat.model.User;
 import fr.supinternet.supchat.util.CryptoUtils;

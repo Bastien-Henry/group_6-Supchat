@@ -6,6 +6,8 @@
     
     <TextView android:id="@+id/activit_contacts_item_pseudo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_margin="5dp"/>
 
 </LinearLayout>
