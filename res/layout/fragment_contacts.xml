@@ -4,9 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <fragment class="fr.supinternet.supchat.fragment.ContactsFragment"
+    <eu.erikw.PullToRefreshListView android:id="@+id/fragment_contacts_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragment_contacts"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

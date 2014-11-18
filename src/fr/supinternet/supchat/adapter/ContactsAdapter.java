@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 
-import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +16,25 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 
 import fr.supinternet.supchat.R;
-import fr.supinternet.supchat.ContactsActivity;
+import fr.supinternet.supchat.fragment.ContactsFragment;
 import fr.supinternet.supchat.manager.RequestManager;
 import fr.supinternet.supchat.model.ContactsResponse;
 import fr.supinternet.supchat.model.User;
 
 public class ContactsAdapter extends BaseAdapter{
 	
+	private static final String TAG = "ContactsAdapter";
+	
 	private ArrayList<User> users;
 	
 	private LayoutInflater inflater;
 	private RequestManager manager;
-	private ContactsActivity activity;
+	private ContactsFragment fragment;
 	
-	public ContactsAdapter(ContactsActivity activity) {
-		inflater = LayoutInflater.from(activity);
-		manager = RequestManager.getInstance(activity);
-		this.activity = activity;
+	public ContactsAdapter(ContactsFragment fragment) {
+		inflater = LayoutInflater.from(fragment.getActivity());
+		manager = RequestManager.getInstance(fragment.getActivity());
+		this.fragment = fragment;
 	}
 	
 	public void loadData(){
@@ -41,9 +43,13 @@ public class ContactsAdapter extends BaseAdapter{
 
 				@Override
 				public void onResponse(ContactsResponse response) {
-					users = response.getUsers();
+					if (response != null){
+						users = response.getUsers();
+					}else{
+						Log.e(TAG, "Response null for retrieve contacts");
+					}
 					notifyDataSetChanged();
-					activity.dataLoaded();
+					fragment.dataLoaded();
 				}
 			}, new ErrorListener() {
 

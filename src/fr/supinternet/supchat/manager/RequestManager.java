@@ -123,6 +123,7 @@ public class RequestManager {
 			@Override
 			public void onResponse(JSONObject jsonResponse) {
 				ContactsResponse response = null;
+				Log.i(TAG, "response " + jsonResponse);
 				try {
 					response = ContactsResponseJSONFactory.parseFromJSONObject(jsonResponse);
 					
@@ -157,6 +158,7 @@ public class RequestManager {
 		final User user = new User();
 		user.setUserPseudo(AuthenticationManager.getInstance(context).getPseudo());
 		user.setUserHash(AuthenticationManager.getInstance(context).getHash());
+		Log.i(TAG, "user sent " + user);
 		LoginRequest request = new LoginRequest(context, user, new Listener<JSONObject>() {
 
 			@Override

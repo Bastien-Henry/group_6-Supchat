@@ -1,53 +1,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-	<LinearLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:gravity="center_horizontal"
-	    android:orientation="vertical">
-	
-	    <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="15dp"
-	        android:text="@string/activity_login_title"
-	        android:textSize="22sp" />
-	
-	    <EditText
-	        android:id="@+id/activity_login_pseudo"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="50dp"
-	        android:hint="@string/activity_login_hint"
-	        android:inputType="textCapWords"
-	        android:singleLine="true"
-	        android:minWidth="250dp" />
-	
-	    <EditText
-	        android:id="@+id/activity_login_password"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="15dp"
-	        android:hint="@string/activity_login_password_hint"
-	        android:inputType="textPassword"
-	        android:minWidth="250dp" />
-	
-	    <Button
-	        android:id="@+id/activity_login_validate"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="15dp"
-	        android:minWidth="250dp"
-	        android:text="@string/activity_login_validate" />
-	
-	    <Button
-	        android:id="@+id/activity_login_go_to_create"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="15dp"
-	        android:minWidth="250dp"
-	        android:text="@string/activity_login_go_to_create" />
-	
-	</LinearLayout>
+    android:layout_height="match_parent" >
+
+    <fragment class="fr.supinternet.supchat.fragment.LoginFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_login"/>
+
 </ScrollView>

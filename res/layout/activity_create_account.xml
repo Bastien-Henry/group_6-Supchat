@@ -2,53 +2,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout
+	<fragment class="fr.supinternet.supchat.fragment.CreateAccountFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/activity_create_account_title"
-            android:textSize="22sp" />
-
-        <EditText
-            android:id="@+id/activity_create_account_pseudo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:hint="@string/activity_create_account_hint"
-            android:inputType="textCapWords"
-            android:singleLine="true"
-            android:minWidth="250dp" />
-
-        <EditText
-            android:id="@+id/activity_create_account_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:inputType="textPassword"
-            android:hint="@string/activity_create_account_password_hint"
-            android:minWidth="250dp" />
-
-        <Button
-            android:id="@+id/activity_create_account_validate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:minWidth="250dp"
-            android:text="@string/activity_create_account_validate" />
-
-        <Button
-            android:id="@+id/activity_create_account_go_to_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:minWidth="250dp"
-            android:text="@string/activity_create_account_go_to_login" />
-    </LinearLayout>
+        android:id="@+id/fragment_create_account"/>   
 
 </ScrollView>
