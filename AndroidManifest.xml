@@ -60,6 +60,7 @@
         </activity>
         
         <activity android:name=".ChatsActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".CreateChatActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -7,8 +7,10 @@ import org.json.JSONException;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
@@ -31,6 +33,10 @@ public class ContactsAdapter extends BaseAdapter{
 	private RequestManager manager;
 	private ContactsFragment fragment;
 	
+	private boolean selectable = false;
+	
+	private boolean[] checked;
+	
 	public ContactsAdapter(ContactsFragment fragment) {
 		inflater = LayoutInflater.from(fragment.getActivity());
 		manager = RequestManager.getInstance(fragment.getActivity());
@@ -45,6 +51,7 @@ public class ContactsAdapter extends BaseAdapter{
 				public void onResponse(ContactsResponse response) {
 					if (response != null){
 						users = response.getUsers();
+						checked = new boolean [users.size()];
 					}else{
 						Log.e(TAG, "Response null for retrieve contacts");
 					}
@@ -79,20 +86,38 @@ public class ContactsAdapter extends BaseAdapter{
 	
 	private class ViewHolder{
 		TextView pseudo;
+		CheckBox check;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		
 		ViewHolder holder;
 		if (convertView == null){
 			convertView = inflater.inflate(R.layout.activity_contacts_item, parent, false);
 			holder = new ViewHolder();
-			holder.pseudo = (TextView) convertView.findViewById(R.id.activit_contacts_item_pseudo);
+			holder.pseudo = (TextView) convertView.findViewById(R.id.fragment_contacts_item_pseudo);
+			holder.check = (CheckBox) convertView.findViewById(R.id.fragment_contacts_item_check);
 			convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder) convertView.getTag();
 		}
+		
+		if (selectable){
+			holder.check.setVisibility(View.VISIBLE);
+			holder.check.setSelected(checked[position]);
+		}else{
+			holder.check.setVisibility(View.INVISIBLE);
+		}
+		
+		holder.check.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				checked[position] = !checked[position];
+				v.setSelected(checked[position]);
+			}
+		});
 		
 		User user = (User) getItem(position);
 		holder.pseudo.setText(user.getUserPseudo());
@@ -100,4 +125,13 @@ public class ContactsAdapter extends BaseAdapter{
 		return convertView;
 	}
 
+	public boolean isSelectable() {
+		return selectable;
+	}
+
+	public void setSelectable(boolean selectable) {
+		this.selectable = selectable;
+		notifyDataSetChanged();
+	}
+	
 }

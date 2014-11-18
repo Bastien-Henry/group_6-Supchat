@@ -21,5 +21,7 @@
     
     <!-- Chats -->
     <string name="activity_chat_menu_add">Add</string>
-
+    
+	<string name="menu_validate">Ok</string>
+    
 </resources>

@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import eu.erikw.PullToRefreshListView;
 import eu.erikw.PullToRefreshListView.OnRefreshListener;
 import fr.supinternet.supchat.R;
@@ -14,6 +17,9 @@ public class ContactsFragment extends Fragment{
 	
 	private View view;
 	private PullToRefreshListView listView;
+	
+	private boolean selectable;
+	private ContactsAdapter adapter;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,7 +31,7 @@ public class ContactsFragment extends Fragment{
 	
 	private void initViews() {
 		listView = (PullToRefreshListView) view.findViewById(R.id.fragment_contacts_list);
-		final ContactsAdapter adapter = new ContactsAdapter(this);
+		adapter = new ContactsAdapter(this);
 		listView.setAdapter(adapter);
 		adapter.loadData();
 		
@@ -36,11 +42,24 @@ public class ContactsFragment extends Fragment{
 				adapter.loadData();
 			}
 		});
+		
 	}
 	
 	public void dataLoaded(){
 		if (listView != null){
 			listView.onRefreshComplete();
+		}
+	}
+
+	public boolean isSelectable() {
+		return selectable;
+	}
+
+	public void setSelectable(boolean selectable) {
+		this.selectable = selectable;
+		adapter.setSelectable(selectable);
+		if (selectable){
+//			listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		}
 	}
 
