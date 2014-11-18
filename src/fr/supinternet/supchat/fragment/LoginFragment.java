@@ -19,8 +19,9 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 
 import fr.supinternet.supchat.R;
-import fr.supinternet.supchat.ContactsActivity;
+import fr.supinternet.supchat.ChatsActivity;
 import fr.supinternet.supchat.CreateAccountActivity;
+import fr.supinternet.supchat.manager.AuthenticationManager;
 import fr.supinternet.supchat.manager.RequestManager;
 import fr.supinternet.supchat.model.ResponseCode;
 import fr.supinternet.supchat.model.TokenResponse;
@@ -79,8 +80,19 @@ public class LoginFragment extends Fragment{
 				goToCreateActvity();
 			}
 		});
+		
+		if (AuthenticationManager.getInstance(getActivity()).hasCredentials()){
+			autoLogin();
+		}
 	}
 	
+	private void autoLogin() {
+		User user = new User();
+		user.setUserHash(AuthenticationManager.getInstance(getActivity()).getHash());
+		user.setUserPseudo(AuthenticationManager.getInstance(getActivity()).getPseudo());
+		login(user);
+	}
+
 	private void login(User user){
 		try {
 			RequestManager.getInstance(getActivity()).login(user, new Listener<TokenResponse>() {
@@ -89,7 +101,7 @@ public class LoginFragment extends Fragment{
 				public void onResponse(TokenResponse response) {
 					Log.i(TAG, "response " + response);
 					if (response != null && response.getCode() == ResponseCode.OK){
-						goToContactsActivity();
+						goToChatsActivity();
 					}else{
 						Toast.makeText(getActivity(), response.getStatus(), Toast.LENGTH_SHORT).show();
 					}
@@ -128,8 +140,8 @@ public class LoginFragment extends Fragment{
 		return true;
 	}
 	
-	private void goToContactsActivity(){
-		Intent intent = new Intent(getActivity(), ContactsActivity.class);
+	private void goToChatsActivity(){
+		Intent intent = new Intent(getActivity(), ChatsActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

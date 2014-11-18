@@ -58,5 +58,15 @@ public class AuthenticationManager {
 	public String getHash(){
 		return PrefsUtils.getString(context, PrefsUtils.PWORD_S, "");
 	}
+	
+	public boolean hasCredentials(){
+		if (getHash() == null || getHash().length() == 0){
+			return false;
+		}
+		if (getPseudo() == null || getPseudo().length() == 0){
+			return false;
+		}
+		return true;
+	}
 
 }

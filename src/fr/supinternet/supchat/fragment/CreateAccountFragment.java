@@ -12,16 +12,18 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 
 import fr.supinternet.supchat.R;
-import fr.supinternet.supchat.ContactsActivity;
+import fr.supinternet.supchat.ChatsActivity;
 import fr.supinternet.supchat.LoginActivity;
 import fr.supinternet.supchat.manager.RequestManager;
 import fr.supinternet.supchat.model.Response;
+import fr.supinternet.supchat.model.ResponseCode;
 import fr.supinternet.supchat.model.User;
 import fr.supinternet.supchat.util.CryptoUtils;
 
@@ -58,8 +60,6 @@ public class CreateAccountFragment extends Fragment{
 				if (checkFields()){
 					User user = fillValues();
 					createUser(user);
-				}else{
-					
 				}
 			}
 		});
@@ -81,7 +81,11 @@ public class CreateAccountFragment extends Fragment{
 				@Override
 				public void onResponse(Response response) {
 					Log.i(TAG, "response " + response);
-					goToContactsActivity();
+					if (response != null && response.getCode() == ResponseCode.OK){
+						goToChatsActivity();
+					}else{
+						Toast.makeText(getActivity(), response.getStatus(), Toast.LENGTH_SHORT).show();
+					}
 				}
 			}, new ErrorListener() {
 
@@ -122,8 +126,8 @@ public class CreateAccountFragment extends Fragment{
 		startActivity(intent);
 	}
 	
-	private void goToContactsActivity(){
-		Intent intent = new Intent(getActivity(), ContactsActivity.class);
+	private void goToChatsActivity(){
+		Intent intent = new Intent(getActivity(), ChatsActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

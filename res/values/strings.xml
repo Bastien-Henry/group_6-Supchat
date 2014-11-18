@@ -18,5 +18,8 @@
     <string name="fragment_create_account_password_hint">Password</string>
     <string name="fragment_create_account_validate">Validate</string>
     <string name="fragment_create_account_go_to_login">Login</string>
+    
+    <!-- Chats -->
+    <string name="activity_chat_menu_add">Add</string>
 
 </resources>
