@@ -4,11 +4,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 
+import fr.supinternet.supchat.LoginActivity;
 import fr.supinternet.supchat.factory.json.ChatsResponseJSONFactory;
 import fr.supinternet.supchat.factory.json.ContactsResponseJSONFactory;
 import fr.supinternet.supchat.factory.json.ResponseJSONFactory;
@@ -108,18 +110,7 @@ public class RequestManager {
 		}, errorListener);
 		request.start();
 	}
-	
-	private void storeCredentials(String pseudo, String hash){
-		AuthenticationManager.getInstance(context).setPseudo(pseudo);
-		AuthenticationManager.getInstance(context).setHash(hash);
-	}
 
-	protected TokenResponse storeToken(JSONObject arg0) throws JSONException {
-		TokenResponse response = TokenResponseJSONFactory.parseFromJSONObject(arg0);
-		AuthenticationManager.getInstance(context).setToken(response.getToken());
-		return response;
-	}
-	
 	public void retrieveContacts(final Listener<ContactsResponse> listener, final ErrorListener errorListener) throws JSONException {
 
 		Token token = new Token();
@@ -132,22 +123,25 @@ public class RequestManager {
 				Log.i(TAG, "response " + jsonResponse);
 				try {
 					response = ContactsResponseJSONFactory.parseFromJSONObject(jsonResponse);
-					
+
 					if (response == null || response.getCode().equals(ResponseCode.TOKEN_INVALID)){
 						autoLogin(new Listener<TokenResponse>(){
 
 							@Override
-							public void onResponse(TokenResponse arg0) {
-								try {
-									retrieveContacts(listener, errorListener);
-								} catch (JSONException e) {
-									e.printStackTrace();
+							public void onResponse(TokenResponse response) {
+								if (response != null && response.getCode().equals(ResponseCode.OK)){
+									try {
+										retrieveContacts(listener, errorListener);
+									} catch (JSONException e) {
+									}
+								}else{
+									goToLoginActivity();
 								}
 							}
-							
+
 						}, errorListener);
 					}
-					
+
 				} catch (JSONException e) {
 					Log.e(TAG, "An error occurred parsing create user response", e);
 				}
@@ -159,7 +153,7 @@ public class RequestManager {
 		}, errorListener);
 		request.start();
 	}
-	
+
 	public void retrieveChats(final Listener<ChatsResponse> listener, final ErrorListener errorListener) throws JSONException {
 
 		Token token = new Token();
@@ -170,9 +164,24 @@ public class RequestManager {
 			public void onResponse(JSONObject jsonResponse) {
 				ChatsResponse response = null;
 				Log.i(TAG, "response " + jsonResponse);
+
 				try {
 					response = ChatsResponseJSONFactory.parseFromJSONObject(jsonResponse);
-					
+					autoLogin(new Listener<TokenResponse>(){
+
+						@Override
+						public void onResponse(TokenResponse response) {
+							if (response != null && response.getCode().equals(ResponseCode.OK)){
+								try {
+									retrieveChats(listener, errorListener);
+								} catch (JSONException e) {
+								}
+							}else{
+								goToLoginActivity();
+							}
+						}
+
+					}, errorListener);
 				} catch (JSONException e) {
 					Log.e(TAG, "An error occurred parsing list chat response", e);
 				}
@@ -184,7 +193,7 @@ public class RequestManager {
 		}, errorListener);
 		request.start();
 	}
-	
+
 	public void createChat(final ChatData data, final Listener<Response> listener, final ErrorListener errorListener) throws JSONException {
 
 		CreateChatRequest request = new CreateChatRequest(context, data, new Listener<JSONObject>() {
@@ -195,8 +204,24 @@ public class RequestManager {
 				try {
 					response = ResponseJSONFactory.parseFromJSONObject(json);
 					if (response == null || response.getCode().equals(ResponseCode.TOKEN_INVALID)){
+
+						autoLogin(new Listener<TokenResponse>(){
+
+							@Override
+							public void onResponse(TokenResponse response) {
+								if (response != null && response.getCode().equals(ResponseCode.OK)){
+									try {
+										createChat(data, listener, errorListener);
+									} catch (JSONException e) {
+									}
+								}else{
+									goToLoginActivity();
+								}
+							}
+
+						}, errorListener);
 					}
-					
+
 				} catch (JSONException e) {
 					Log.e(TAG, "An error occurred parsing create chat response", e);
 				}
@@ -208,7 +233,7 @@ public class RequestManager {
 		}, errorListener);
 		request.start();
 	}
-	
+
 	private void autoLogin(final Listener<TokenResponse> listener, final ErrorListener errorListener) throws JSONException{
 		final User user = new User();
 		user.setUserPseudo(AuthenticationManager.getInstance(context).getPseudo());
@@ -232,6 +257,25 @@ public class RequestManager {
 			}
 		}, errorListener);
 		request.start();
+	}
+
+	private void storeCredentials(String pseudo, String hash){
+		AuthenticationManager.getInstance(context).setPseudo(pseudo);
+		AuthenticationManager.getInstance(context).setHash(hash);
+	}
+
+	protected TokenResponse storeToken(JSONObject arg0) throws JSONException {
+		TokenResponse response = TokenResponseJSONFactory.parseFromJSONObject(arg0);
+		AuthenticationManager.getInstance(context).setToken(response.getToken());
+		return response;
+	}
+	
+	private void goToLoginActivity() {
+		Intent intent = new Intent(context, LoginActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
 	}
 
 }
