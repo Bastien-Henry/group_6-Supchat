@@ -86,7 +86,6 @@ public class ContactsAdapter extends BaseAdapter{
 	
 	private class ViewHolder{
 		TextView pseudo;
-		CheckBox check;
 	}
 
 	@Override
@@ -94,30 +93,18 @@ public class ContactsAdapter extends BaseAdapter{
 		
 		ViewHolder holder;
 		if (convertView == null){
-			convertView = inflater.inflate(R.layout.activity_contacts_item, parent, false);
 			holder = new ViewHolder();
-			holder.pseudo = (TextView) convertView.findViewById(R.id.fragment_contacts_item_pseudo);
-			holder.check = (CheckBox) convertView.findViewById(R.id.fragment_contacts_item_check);
+			if (selectable){
+				convertView = inflater.inflate(android.R.layout.simple_list_item_multiple_choice, parent, false);
+				holder.pseudo = (TextView) convertView.findViewById(android.R.id.text1);
+			}else{
+				convertView = inflater.inflate(R.layout.activity_contacts_item, parent, false);
+				holder.pseudo = (TextView) convertView.findViewById(R.id.fragment_contacts_item_pseudo);
+			}
 			convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder) convertView.getTag();
 		}
-		
-		if (selectable){
-			holder.check.setVisibility(View.VISIBLE);
-			holder.check.setSelected(checked[position]);
-		}else{
-			holder.check.setVisibility(View.INVISIBLE);
-		}
-		
-		holder.check.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				checked[position] = !checked[position];
-				v.setSelected(checked[position]);
-			}
-		});
 		
 		User user = (User) getItem(position);
 		holder.pseudo.setText(user.getUserPseudo());
