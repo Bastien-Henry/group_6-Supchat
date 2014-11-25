@@ -8,7 +8,7 @@ import android.content.Context;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 
-import fr.supinternet.supchat.factory.json.UserJsonFactory;
+import fr.supinternet.supchat.factory.json.UserJSONFactory;
 import fr.supinternet.supchat.model.User;
 
 public class CreateUserRequest extends AbstractRequest{
@@ -28,7 +28,7 @@ public class CreateUserRequest extends AbstractRequest{
 	}
 
 	private static JSONObject constructJSONObject(User data) throws JSONException{
-		JSONObject json = UserJsonFactory.getJSONObject(data);
+		JSONObject json = UserJSONFactory.getJSONObject(data);
 		return json;
 	}
 

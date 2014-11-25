@@ -11,15 +11,15 @@ import com.android.volley.Response.Listener;
 import fr.supinternet.supchat.factory.json.TokenJSONFactory;
 import fr.supinternet.supchat.model.Token;
 
-public class ContactsRequest extends AbstractRequest{
+public class ChatsRequest extends AbstractRequest{
 
-	private static final String LOGIN = "list_users";
+	private static final String LOGIN = "list_chats";
 
-	public ContactsRequest(Context context, int method, Token data, Listener<JSONObject> listener, ErrorListener errorListener) throws JSONException {
+	public ChatsRequest(Context context, int method, Token data, Listener<JSONObject> listener, ErrorListener errorListener) throws JSONException {
 		super(context, method, constructUrl(), constructJSONObject(data), listener, errorListener);
 	}
 
-	public ContactsRequest(Context context, Token data, Listener<JSONObject> listener, ErrorListener errorListener) throws JSONException {
+	public ChatsRequest(Context context, Token data, Listener<JSONObject> listener, ErrorListener errorListener) throws JSONException {
 		super(context,constructUrl(), constructJSONObject(data), listener, errorListener);
 	}
 

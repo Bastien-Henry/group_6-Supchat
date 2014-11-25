@@ -9,7 +9,7 @@ import android.util.Log;
 import fr.supinternet.supchat.model.ChatData;
 import fr.supinternet.supchat.model.User;
 
-public class ChatRequestFactory {
+public class ChatDataJSONFactory {
 	
 private static final String TAG = "ChatRequestFactory";
 	
@@ -21,8 +21,8 @@ private static final String TAG = "ChatRequestFactory";
 		}
 		
 		JSONObject result = new JSONObject();
-		result.accumulate("chat", ChatJsonFactory.getJSONObject(t.getChat()));
-		result.accumulate("users", UserJsonFactory.getJSONArray((ArrayList<User>) t.getUsers()));
+		result.accumulate("chat", ChatJSONFactory.getJSONObject(t.getChat()));
+		result.accumulate("users", UserJSONFactory.getJSONArray((ArrayList<User>) t.getUsers()));
 		result.accumulate("token", t.getToken());
 		return result;
 	}

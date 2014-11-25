@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import android.util.Log;
 import fr.supinternet.supchat.model.Token;
 
-public class TokenJsonFactory {
+public class TokenJSONFactory {
 	
 	private static final String TAG = "TokenJsonFactory";
 	
@@ -32,7 +32,7 @@ public class TokenJsonFactory {
 		}
 		JSONArray result = new JSONArray();
 		for (Token t : tokens){
-			result.put(TokenJsonFactory.getJSONObject(t));
+			result.put(TokenJSONFactory.getJSONObject(t));
 		}
 		return result;
 	}
@@ -61,7 +61,7 @@ public class TokenJsonFactory {
 		ArrayList<Token> result = new ArrayList<Token>();
 		int length = array.length();
 		for (int i = 0 ; i < length ; i++){
-			result.add(TokenJsonFactory.parseFromJSONObject(array.getJSONObject(i)));
+			result.add(TokenJSONFactory.parseFromJSONObject(array.getJSONObject(i)));
 		}
 		return  result;
 		

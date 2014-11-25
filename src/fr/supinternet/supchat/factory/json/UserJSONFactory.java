@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import android.util.Log;
 import fr.supinternet.supchat.model.User;
 
-public class UserJsonFactory {
+public class UserJSONFactory {
 	
 	private static final String TAG = "UserJsonFactory";
 	
@@ -35,7 +35,7 @@ public class UserJsonFactory {
 		}
 		JSONArray result = new JSONArray();
 		for (User u : users){
-			result.put(UserJsonFactory.getJSONObject(u));
+			result.put(UserJSONFactory.getJSONObject(u));
 		}
 		return result;
 	}
@@ -66,7 +66,7 @@ public class UserJsonFactory {
 		ArrayList<User> result = new ArrayList<User>();
 		int length = array.length();
 		for (int i = 0 ; i < length ; i++){
-			result.add(UserJsonFactory.parseFromJSONObject(array.getJSONObject(i)));
+			result.add(UserJSONFactory.parseFromJSONObject(array.getJSONObject(i)));
 		}
 		return  result;
 		

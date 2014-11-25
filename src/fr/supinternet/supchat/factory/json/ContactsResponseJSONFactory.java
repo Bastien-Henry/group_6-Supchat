@@ -22,7 +22,7 @@ private static final String TAG = "ContactsResponseJSONFactory";
 		
 		result.setCode(ResponseCode.valueOf(json.getString("code")));
 		result.setStatus(json.getString("status"));
-		result.setUsers(UserJsonFactory.parseFromJSONArray(json.getJSONArray("users")));
+		result.setUsers(UserJSONFactory.parseFromJSONArray(json.getJSONArray("users")));
 		
 		return result;
 	}

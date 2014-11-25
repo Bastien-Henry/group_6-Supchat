@@ -9,16 +9,19 @@ import android.util.Log;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 
+import fr.supinternet.supchat.factory.json.ChatsResponseJSONFactory;
 import fr.supinternet.supchat.factory.json.ContactsResponseJSONFactory;
 import fr.supinternet.supchat.factory.json.ResponseJSONFactory;
 import fr.supinternet.supchat.factory.json.TokenResponseJSONFactory;
 import fr.supinternet.supchat.model.ChatData;
+import fr.supinternet.supchat.model.ChatsResponse;
 import fr.supinternet.supchat.model.ContactsResponse;
 import fr.supinternet.supchat.model.Response;
 import fr.supinternet.supchat.model.ResponseCode;
 import fr.supinternet.supchat.model.Token;
 import fr.supinternet.supchat.model.TokenResponse;
 import fr.supinternet.supchat.model.User;
+import fr.supinternet.supchat.request.ChatsRequest;
 import fr.supinternet.supchat.request.ContactsRequest;
 import fr.supinternet.supchat.request.CreateChatRequest;
 import fr.supinternet.supchat.request.CreateUserRequest;
@@ -157,6 +160,31 @@ public class RequestManager {
 		request.start();
 	}
 	
+	public void retrieveChats(final Listener<ChatsResponse> listener, final ErrorListener errorListener) throws JSONException {
+
+		Token token = new Token();
+		token.setTokenValue(AuthenticationManager.getInstance(context).getToken());
+		ChatsRequest request = new ChatsRequest(context, token, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject jsonResponse) {
+				ChatsResponse response = null;
+				Log.i(TAG, "response " + jsonResponse);
+				try {
+					response = ChatsResponseJSONFactory.parseFromJSONObject(jsonResponse);
+					
+				} catch (JSONException e) {
+					Log.e(TAG, "An error occurred parsing list chat response", e);
+				}
+
+				if (listener != null){
+					listener.onResponse(response);
+				}
+			}
+		}, errorListener);
+		request.start();
+	}
+	
 	public void createChat(final ChatData data, final Listener<Response> listener, final ErrorListener errorListener) throws JSONException {
 
 		CreateChatRequest request = new CreateChatRequest(context, data, new Listener<JSONObject>() {
@@ -170,7 +198,7 @@ public class RequestManager {
 					}
 					
 				} catch (JSONException e) {
-					Log.e(TAG, "An error occurred parsing create user response", e);
+					Log.e(TAG, "An error occurred parsing create chat response", e);
 				}
 
 				if (listener != null){

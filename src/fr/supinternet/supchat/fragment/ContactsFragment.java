@@ -53,7 +53,12 @@ public class ContactsFragment extends Fragment{
 					int position, long itemId) {
 				view.setSelected(true);
 				view.setActivated(false);
-				usersSelected.add((User) adapter.getItem(position));
+				User user = (User) adapter.getItem(position);
+				if (usersSelected.contains(user)){
+					usersSelected.remove(user);
+				}else{
+					usersSelected.add(user);
+				}
 			}
 		});
 		

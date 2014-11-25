@@ -16,24 +16,24 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 
 import fr.supinternet.supchat.R;
-import fr.supinternet.supchat.fragment.ContactsFragment;
+import fr.supinternet.supchat.fragment.ChatsFragment;
 import fr.supinternet.supchat.manager.RequestManager;
-import fr.supinternet.supchat.model.ContactsResponse;
-import fr.supinternet.supchat.model.User;
+import fr.supinternet.supchat.model.Chat;
+import fr.supinternet.supchat.model.ChatsResponse;
 
-public class ContactsAdapter extends BaseAdapter{
+public class ChatsAdapter extends BaseAdapter{
 	
-	private static final String TAG = "ContactsAdapter";
+	private static final String TAG = "ChatsAdapter";
 	
-	private ArrayList<User> users;
+	private ArrayList<Chat> chats;
 	
 	private LayoutInflater inflater;
 	private RequestManager manager;
-	private ContactsFragment fragment;
+	private ChatsFragment fragment;
 	
 	private boolean selectable = false;
 	
-	public ContactsAdapter(ContactsFragment fragment) {
+	public ChatsAdapter(ChatsFragment fragment) {
 		inflater = LayoutInflater.from(fragment.getActivity());
 		manager = RequestManager.getInstance(fragment.getActivity());
 		this.fragment = fragment;
@@ -41,12 +41,13 @@ public class ContactsAdapter extends BaseAdapter{
 	
 	public void loadData(){
 		try {
-			manager.retrieveContacts(new Listener<ContactsResponse>() {
+			manager.retrieveChats(new Listener<ChatsResponse>() {
+				
 
 				@Override
-				public void onResponse(ContactsResponse response) {
+				public void onResponse(ChatsResponse response) {
 					if (response != null){
-						users = response.getUsers();
+						chats = response.getChats();
 					}else{
 						Log.e(TAG, "Response null for retrieve contacts");
 					}
@@ -66,12 +67,12 @@ public class ContactsAdapter extends BaseAdapter{
 	
 	@Override
 	public int getCount() {
-		return (users == null ? 0 : users.size());
+		return (chats == null ? 0 : chats.size());
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return (users == null ? null : users.get(position));
+		return (chats == null ? null : chats.get(position));
 	}
 
 	@Override
@@ -101,8 +102,8 @@ public class ContactsAdapter extends BaseAdapter{
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		User user = (User) getItem(position);
-		holder.pseudo.setText(user.getUserPseudo());
+		Chat chat = (Chat) getItem(position);
+		holder.pseudo.setText(chat.getChatName());
 		
 		return convertView;
 	}

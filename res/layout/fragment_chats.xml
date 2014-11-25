@@ -4,5 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     
+    <eu.erikw.PullToRefreshListView android:id="@+id/fragment_chat_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    
 
 </LinearLayout>
