@@ -51,9 +51,11 @@ public class ContactsFragment extends Fragment{
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view,
 					int position, long itemId) {
-				view.setSelected(true);
-				view.setActivated(false);
+//				view.setSelected(true);
+//				view.setActivated(false);
+				
 				User user = (User) adapter.getItem(position);
+				
 				if (usersSelected.contains(user)){
 					usersSelected.remove(user);
 				}else{

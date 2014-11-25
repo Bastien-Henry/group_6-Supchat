@@ -24,9 +24,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" android:name=".application.SupChatApplication">
-<!--         <meta-data -->
-<!--             android:name="com.google.android.gms.version" -->
-<!--             android:value="@integer/google_play_services_version" /> -->
 
         <activity
             android:name="fr.supinternet.supchat.LoginActivity"
@@ -42,18 +39,6 @@
             android:name=".CreateAccountActivity"
             android:screenOrientation="portrait" >
         </activity>
-
-<!--         <receiver -->
-<!--             ANDROID:NAME=".GCMBROADCASTRECEIVER" -->
-<!--             ANDROID:PERMISSION="COM.GOOGLE.ANDROID.C2DM.PERMISSION.SEND" > -->
-<!--             <INTENT-FILTER> -->
-<!--                 <ACTION ANDROID:NAME="COM.GOOGLE.ANDROID.C2DM.INTENT.RECEIVE" /> -->
-
-<!--                 <CATEGORY ANDROID:NAME="FR.SUPINTERNET.CHAT" /> -->
-<!--             </INTENT-FILTER> -->
-<!--         </RECEIVER> -->
-
-<!--         <service android:name=".GcmIntentService" /> -->
 
         <activity android:name=".ContactsActivity">
             
